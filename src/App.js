@@ -6,14 +6,28 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
-    this.test = this.test.bind(this);
-    this.hello = this.hello.bind(this);
+    this.state = { result: 'rez' };
+    this.updateResult = this.updateResult.bind(this);
+    this.postApi = this.postApi.bind(this);
+
+
+    //this.hello = this.hello.bind(this);
   }
 
 
   test = () => {
     console.log("TEEEST");
+  }
+
+  updateResult = () => {
+
+      var rez = this.postApi()
+      console.log(rez);
+      //let romertall = this.postApi();
+      //console.log(romertall);
+    //this.setState({
+      //    result: this.postApi()
+      //  });
   }
 
   hello = () => {
@@ -23,6 +37,39 @@ class App extends Component {
             console.log(message);
           });
   };
+
+  postApi = () => {
+  return fetch('/api/decimal-to-roman/', {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        decimal: 42
+      })
+  }).then(function(response) {
+    console.log(response);
+    return response.json(); })
+    .then(function(myJson) {
+      return myJson.number.decimal; })
+    .then(function(decimal) {
+      console.log(decimal);
+      return decimal;
+    });
+
+    //console.log(myJson.number.decimal);
+    //console.log(this.state.result);
+    //this.setState({ result: myJson.number.decimal})
+
+    //console.log(myJson.number.decimal);
+    //console.log("test");
+    //console.log(this.state.result);
+    //this.setState(result: myJson.number.decimal)
+    //this.setState(result: "test");
+
+
+}
 
 
 
@@ -37,9 +84,22 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
 
-          <button onClick={this.hello}>
-            FETCH!
+          <button onClick={this.test}>
+            HELLO!
           </button>
+
+
+          <button onClick={this.postApi}>
+              POST
+          </button>
+
+          <button onClick={this.updateResult}>
+              SET RES
+          </button>
+
+          <div>
+          {this.state.result}
+          </div>
 
       </div>
     );
