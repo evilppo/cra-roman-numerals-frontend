@@ -6,28 +6,14 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { result: 'rez' };
-    this.updateResult = this.updateResult.bind(this);
-    this.postApi = this.postApi.bind(this);
-
-
-    //this.hello = this.hello.bind(this);
+    this.state = { result: '',
+                    input: ''
+          };
   }
 
 
   test = () => {
     console.log("TEEEST");
-  }
-
-  updateResult = () => {
-
-      var rez = this.postApi()
-      console.log(rez);
-      //let romertall = this.postApi();
-      //console.log(romertall);
-    //this.setState({
-      //    result: this.postApi()
-      //  });
   }
 
   hello = () => {
@@ -38,39 +24,35 @@ class App extends Component {
           });
   };
 
-  postApi = () => {
-  return fetch('/api/decimal-to-roman/', {
+  postApi = (num) => {
+
+   fetch('/api/decimal-to-roman/', {
     method: 'post',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-        decimal: 42
+        decimal: num
       })
-  }).then(function(response) {
-    console.log(response);
-    return response.json(); })
-    .then(function(myJson) {
-      return myJson.number.decimal; })
-    .then(function(decimal) {
-      console.log(decimal);
-      return decimal;
+  }).then(response => {
+    return response.json()})
+    .then(myJson =>{
+      console.log(myJson);
+      return myJson.number.romanNumeral})
+    .then(numeral => {
+      console.log(numeral);
+      this.setState({ result: numeral})
     });
-
-    //console.log(myJson.number.decimal);
-    //console.log(this.state.result);
-    //this.setState({ result: myJson.number.decimal})
-
-    //console.log(myJson.number.decimal);
-    //console.log("test");
-    //console.log(this.state.result);
-    //this.setState(result: myJson.number.decimal)
-    //this.setState(result: "test");
-
 
 }
 
+onFormSubmitRegularNumber = (evt) => {
+  evt.preventDefault();
+  console.log(this.refs.name.value);
+  this.postApi(this.refs.name.value);
+
+};
 
 
   render() {
@@ -83,6 +65,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+{/*
 
           <button onClick={this.test}>
             HELLO!
@@ -92,14 +75,23 @@ class App extends Component {
           <button onClick={this.postApi}>
               POST
           </button>
+*/}
 
-          <button onClick={this.updateResult}>
-              SET RES
-          </button>
+
+
+
+          <form onChange={this.onFormSubmitRegularNumber}>
+            <input placeholder='Input regular number' ref='name'/>
+          </form>
+
+          <div>
+          RESULT:
+          </div>
 
           <div>
           {this.state.result}
           </div>
+          <div />
 
       </div>
     );
