@@ -6,8 +6,9 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { result: '',
-                    input: ''
+    this.state = {
+            result: '',
+            input: ''
           };
   }
 
@@ -26,24 +27,39 @@ class App extends Component {
 
   postApi = (num) => {
 
-   fetch('/api/decimal-to-roman/', {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        decimal: num
-      })
-  }).then(response => {
-    return response.json()})
-    .then(myJson =>{
-      console.log(myJson);
-      return myJson.number.romanNumeral})
-    .then(numeral => {
-      console.log(numeral);
-      this.setState({ result: numeral})
-    });
+           fetch('/api/decimal-to-roman/', {
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                decimal: num
+              })
+          })
+          .then(response => {
+                if(response.status !== 200) {
+                    throw Error('Invalid input!');
+                    }
+                else{
+                    return response;}
+                })
+                .catch( error =>{
+                                  console.log(error)
+                                  alert(error);
+                                  window.location.reload();
+                             })
+
+          .then((response) => {
+            return response.json()})
+            .then(myJson =>{
+              console.log(myJson);
+              return myJson.number.romanNumeral})
+            .then(numeral => {
+              console.log(numeral);
+              this.setState({ result: numeral})
+            });
+
 
 }
 
