@@ -110,13 +110,13 @@ onFormSubmitRomanNumeral = (evt) => {
           <form
                 onChange={this.onFormSubmitRegularNumber}>
 
-            <input placeholder='Input regular number' ref='name'/>
+            <input placeholder='Input regular number' ref='submitRegularNumber'/>
           </form>
 
           <form
                 onChange={this.onFormSubmitRomanNumeral}>
 
-            <input placeholder='Input roman numeral' ref='name'/>
+            <input placeholder='Input roman numeral' ref='SubmitRomanNumeral'/>
           </form>
 
           <div>
