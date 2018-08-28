@@ -25,7 +25,7 @@ class App extends Component {
           });
   };
 
-  postApi = (num) => {
+  postApiDecimalToRoman = (num) => {
 
            fetch('/api/decimal-to-roman/', {
             method: 'post',
@@ -39,7 +39,7 @@ class App extends Component {
           })
           .then(response => {
                 if(response.status !== 200) {
-                    throw Error('Invalid input!');
+                    throw Error('Number must be less than 3000');
                     }
                 else{
                     return response;}
@@ -64,9 +64,20 @@ class App extends Component {
 }
 
 onFormSubmitRegularNumber = (evt) => {
-  evt.preventDefault();
-  console.log(this.refs.name.value);
-  this.postApi(this.refs.name.value);
+    let num = evt.target.value;
+   if(num>0){
+        console.log('hei');
+        this.postApiDecimalToRoman(evt.target.value);
+   }
+
+
+};
+
+onFormSubmitRomanNumeral = (evt) => {
+
+  console.log('onFormSubmitRomanNumeral');
+  console.log('evt.target.value: ', evt.target.value);
+  //this.postApiDecimalToRoman(evt.value);
 
 };
 
@@ -88,7 +99,7 @@ onFormSubmitRegularNumber = (evt) => {
           </button>
 
 
-          <button onClick={this.postApi}>
+          <button onClick={this.postApiDecimalToRoman}>
               POST
           </button>
 */}
@@ -96,8 +107,16 @@ onFormSubmitRegularNumber = (evt) => {
 
 
 
-          <form onChange={this.onFormSubmitRegularNumber}>
+          <form
+                onChange={this.onFormSubmitRegularNumber}>
+
             <input placeholder='Input regular number' ref='name'/>
+          </form>
+
+          <form
+                onChange={this.onFormSubmitRomanNumeral}>
+
+            <input placeholder='Input roman numeral' ref='name'/>
           </form>
 
           <div>
