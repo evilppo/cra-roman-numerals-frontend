@@ -130,7 +130,7 @@ let numeral = evt.target.value.toUpperCase();
           </form>
 
           <div>
-            {(this.state.result && "RESULT")}
+            {(this.state.result && "RESULT:")}
           </div>
 
           <div>
