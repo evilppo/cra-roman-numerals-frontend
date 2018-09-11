@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './colosseum.svg';
 import './App.css';
 
 class App extends Component {
@@ -89,6 +89,9 @@ class App extends Component {
 }
 onFormSubmitRegularNumber = (evt) => {
     let num = evt.target.value;
+   if(num === ''){
+   this.setState({ result: ''})
+   }
    if(num>0){
         this.postApiDecimalToRoman(evt.target.value);
    }
@@ -96,6 +99,9 @@ onFormSubmitRegularNumber = (evt) => {
 
 onFormSubmitRomanNumeral = (evt) => {
 let numeral = evt.target.value.toUpperCase();
+    if(numeral === ''){
+       this.setState({ result: ''})
+       }
   if(numeral !== ''){
     console.log('onFormSubmitRomanNumeral');
     console.log('evt.target.value: ', evt.target.value);
@@ -109,7 +115,7 @@ let numeral = evt.target.value.toUpperCase();
       <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
-              <h1 className="App-title">Eiriks Roman Numeral Converter!</h1>
+              <h1 className="App-title">Eiriks Roman Numeral Converter</h1>
             </header>
             <p className="App-intro">
               Type in integer or roman numeral:
@@ -124,9 +130,7 @@ let numeral = evt.target.value.toUpperCase();
           </form>
 
           <div>
-            RESULT:
-          </div>
-          <div>
+            {(this.state.result && "RESULT")}
           </div>
 
           <div>
