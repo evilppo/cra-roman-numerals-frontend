@@ -11,20 +11,6 @@ class App extends Component {
             input: ''
           };
   }
-
-
-  test = () => {
-    console.log("TEEEST");
-  }
-
-  hello = () => {
-      fetch("/api/")
-          .then(response => response.text())
-          .then(message => {
-            console.log(message);
-          });
-  };
-
   postApiDecimalToRoman = (num) => {
 
            fetch('/api/decimal-to-roman/', {
@@ -63,70 +49,90 @@ class App extends Component {
 
 }
 
+
+ postApiRomanToDecimal = (numeral) => {
+
+           fetch('/api/roman-to-decimal/', {
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                romanNumeral: numeral
+              })
+          })
+          .then(response => {
+                if(response.status !== 200) {
+                    throw Error('Invalid roman numeral');
+                    }
+                else{
+                    return response;}
+                })
+                .catch( error =>{
+                                  console.log(error)
+                                  alert(error);
+                                  window.location.reload();
+                             })
+
+          .then((response) => {
+            return response.json()})
+            .then(myJson =>{
+              console.log(myJson);
+              return myJson.number.decimal})
+            .then(decimal => {
+              console.log(decimal);
+              this.setState({ result: decimal})
+            });
+
+
+}
 onFormSubmitRegularNumber = (evt) => {
     let num = evt.target.value;
    if(num>0){
-        console.log('hei');
         this.postApiDecimalToRoman(evt.target.value);
    }
-
-
 };
 
 onFormSubmitRomanNumeral = (evt) => {
-
-  console.log('onFormSubmitRomanNumeral');
-  console.log('evt.target.value: ', evt.target.value);
-  //this.postApiDecimalToRoman(evt.value);
-
+let numeral = evt.target.value.toUpperCase();
+  if(numeral !== ''){
+    console.log('onFormSubmitRomanNumeral');
+    console.log('evt.target.value: ', evt.target.value);
+    this.postApiRomanToDecimal(numeral);
+  }
 };
 
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-{/*
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h1 className="App-title">Eiriks Roman Numeral Converter!</h1>
+            </header>
+            <p className="App-intro">
+              Type in integer or roman numeral:
+            </p>
 
-          <button onClick={this.test}>
-            HELLO!
-          </button>
-
-
-          <button onClick={this.postApiDecimalToRoman}>
-              POST
-          </button>
-*/}
-
-
-
-
-          <form
-                onChange={this.onFormSubmitRegularNumber}>
-
+          <form onChange={this.onFormSubmitRegularNumber}>
             <input placeholder='Input regular number' ref='submitRegularNumber'/>
           </form>
 
-          <form
-                onChange={this.onFormSubmitRomanNumeral}>
-
+          <form onChange={this.onFormSubmitRomanNumeral}>
             <input placeholder='Input roman numeral' ref='SubmitRomanNumeral'/>
           </form>
 
           <div>
-          RESULT:
+            RESULT:
+          </div>
+          <div>
           </div>
 
           <div>
-          {this.state.result}
+            {this.state.result}
           </div>
-          <div />
+
 
       </div>
     );
